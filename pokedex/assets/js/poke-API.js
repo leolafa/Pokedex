@@ -28,3 +28,25 @@ pokeAPI.getPokemonData = (offset=0,limit=6)=>{
         .then((pokemonsDetails) => pokemonsDetails)
         
 }
+
+
+
+pokeAPI.getPokemonFullDetails = (pokemonName) => {
+      const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
+      return fetch(url)
+          .then(response => response.json())
+          .then(data=>{
+            return{
+                id:data.id,
+                name:data.name,
+                height:data.height,
+                weight:data.weight,
+                abilities: data.abilities.map(ability=>
+                    ability.ability.name
+                ),
+                stats:data.stats,
+                types: data.types.map(typeSlot=>typeSlot.type.name),
+                image: data.sprites.other.dream_world.front_default
+            };
+          });
+    }   
